@@ -2,6 +2,8 @@ from math import pi
 import math
 import numpy as np
 from numpy.linalg import inv
+import pandas as pd
+from matplotlib import pyplot as plt
 
 sin = math.sin
 cos = math.cos
@@ -25,9 +27,11 @@ x = np.array([theta_3,R3,theta_4,R4,R5], dtype=np.float)
 #Input Angle
 theta_2 = 0 #radians
 
+#Data collection table
+positions = pd.DataFrame(columns=['theta_2','R3','theta_4','R4','R5'])
+r=0 #row Counter
 
-
-while theta_2 < (2*pi):
+while theta_2 < 6.28:
     #finding the sines and cosines of all the angles
     ct2 = cos(theta_2)
     st2 = sin(theta_2)
@@ -72,6 +76,59 @@ while theta_2 < (2*pi):
         theta_4 = x[2][0]
         R4 = x[3][0]
         R5 = x[4][0]
+
         i+=1
-    theta_2 +=.1
-    print(theta_3, R3, theta_4, R4, R5)
+    #Logging Data into the table
+    positions.loc[r,'theta_2'] = theta_2
+    positions.loc[r,'theta_3'] = theta_3
+    positions.loc[r,'R3'] = R3
+    positions.loc[r,'theta_4'] = theta_4
+    positions.loc[r,'R4'] = R4
+    positions.loc[r,'R5'] = R5
+
+    theta_2 +=.01
+    r += 1
+#Generating t2 vs t3 plot
+plt.figure(1)
+plt.plot(positions.theta_2,positions.theta_3)
+titlet3 = 'Theta 2 vs Theta 3'
+plt.title(titlet3)
+plt.xlabel('Theta 2 (radians)')
+plt.ylabel('Theta 3 (radians)')
+plt.savefig(titlet3)
+
+#Generating t2 vs R3 plot
+plt.figure(2)
+plt.plot(positions.theta_2,positions.R3)
+titler3 = 'Theta 2 vs Vector R3'
+plt.title('Theta 2 vs Vector R3')
+plt.xlabel('Theta 2 (radians)')
+plt.ylabel('Vector R3 (inches)')
+plt.savefig(titler3)
+
+#Generating t2 vs t4 plot
+plt.figure(3)
+plt.plot(positions.theta_2,positions.theta_4)
+titlet4 = 'Theta 2 vs Theta 4'
+plt.title(titlet4)
+plt.xlabel('Theta 2 (radians)')
+plt.ylabel('Theta 4 (radians)')
+plt.savefig(titlet4)
+
+#Generating t2 vs R4 plot
+plt.figure(4)
+plt.plot(positions.theta_2,positions.R4)
+titler4 = 'Theta 2 vs Vector R4'
+plt.title(titler4)
+plt.xlabel('Theta 2 (radians)')
+plt.ylabel('Vector R4 (inches)')
+plt.savefig(titler4)
+
+#Generating t2 vs R5 plot
+plt.figure(5)
+plt.plot(positions.theta_2,positions.R5)
+titler5 = 'Theta 2 vs Vector R5'
+plt.title(titler5)
+plt.xlabel('Theta 2 (radians)')
+plt.ylabel('Vector R5 (inches)')
+plt.savefig(titler5)
