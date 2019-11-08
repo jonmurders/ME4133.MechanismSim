@@ -241,7 +241,7 @@ titlet4p = 'Theta 2 vs h4\''
 plt.title(titlet4p)
 plt.xlabel('Theta 2 (radians)')
 plt.ylabel('h4\' (radians/s)')
-plt.savefig(titlet8)
+plt.savefig(titlet4p)
 
 #Generating t2 vs R4 plot
 plt.figure(14)
