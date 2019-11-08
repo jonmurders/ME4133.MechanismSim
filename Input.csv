@@ -1,0 +1,22 @@
+Variable,Value,Units
+R1 Length,4.8,in.
+R2 Length,2,in.
+R3 Length,3,in.
+R4 Length,11,in.
+R5 Length,4,in.
+R6 Length,3.65,in.
+Theta 1,-3.14,radians
+Theta 2,0,radians
+Theta 3,5.236,radians
+Theta 4,5.236,radians
+Theta 5,-1.57,radians
+Theta 6,0,radians
+R1 Mass,0,lbs
+R2 Mass,0,lbs
+R3 Mass,0,lbs
+R4 Mass,0,lbs
+R5 Mass,0,lbs
+R6 Mass,0,lbs
+Theta 2 Start,0,radians
+Theta 2 Finish,6.28,radians
+Omega 2,3.14,rads/s
