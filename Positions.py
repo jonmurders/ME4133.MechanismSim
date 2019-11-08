@@ -33,7 +33,7 @@ w2 = input.loc[20,'Value'] #radians per second
 positions = pd.DataFrame(columns=['theta_2','theta_3','R3','theta_4','R4','R5','h3','f3','h4','f4','f5','h3p','f3p','h4p','f4p','f5p'])
 r=0 #row Counter
 
-while input.loc[18,'Value'] < theta_2 < input.loc[19,'Value']:
+while  theta_2 < input.loc[19,'Value']:
     #finding the sines and cosines of all the angles
     ct2 = cos(theta_2)
     st2 = sin(theta_2)
@@ -126,6 +126,7 @@ while input.loc[18,'Value'] < theta_2 < input.loc[19,'Value']:
 
     theta_2 +=.01
     r += 1
+print(positions)
 #Generating t2 vs h3 plot
 plt.figure(1)
 plt.plot(positions.theta_2,positions.theta_3)
