@@ -1,4 +1,5 @@
 from math import pi
+from math import asin, acos, atan
 import math
 import numpy as np
 from numpy.linalg import inv
@@ -8,16 +9,19 @@ from matplotlib import pyplot as plt
 sin = math.sin
 cos = math.cos
 tan = math.tan
+acos = math.acos
+asin = math.asin
+atan = math.atan
 #Bring In Input CSV
 input = pd.read_csv('Input.csv')
-
+print(input)
 #loading scalar knowns from input sheet
 R1 = input.loc[0,'Value']  #inches - pg 96
 R2 = input.loc[1,'Value'] #inches - pg 96
 R6 = input.loc[5,'Value'] #inches - pg 96
-theta_1 = input.loc[6,'Value']# pg 96
-theta_5 = input.loc[10,'Value']# pg 96
-theta_6 = input.loc[11,'Value']# pg 96
+theta_1 = 1.570796# pg 96
+theta_5 = 0# pg 96
+theta_6 = 1.570796# pg 96
 m2 = input.loc[12,'Value']
 m3 = input.loc[13,'Value']
 m4 = input.loc[14,'Value']
@@ -33,6 +37,7 @@ theta_4 = input.loc[9,'Value'] #radians
 R4 = input.loc[3,'Value'] #meters
 R5 =  input.loc[4,'Value'] #meters
 x = np.array([theta_3,R3,theta_4,R4,R5], dtype=np.float)
+print(x)
 #Input Setup from the input sheet
 a2 = input.loc[20,'Value'] #radians per second per second
 theta_2 = input.loc[7,'Value'] #radians
@@ -58,16 +63,15 @@ while  theta_2 < input.loc[21,'Value']:
     st6 = sin(theta_6)
     #Loop Counter
     i = 0
-
     #Newton's Method Loop
-    while i<100:
+    while i<5:
 
 
         #find the values of the VLEs provided on page 96
-        f1 = R2*ct2-R3*ct3+R1*ct1 #R1x
-        f2 = R2*st2-R3*st3+R1*st1 #R1y
-        f3 = R6*ct6 + R5*ct5 - R4*ct4 - R1*ct1 #R2x
-        f4 = R6*st6 + R5*st5 -R4*st4-R1*st1 #R2y
+        f1 = R2*ct2-R3*ct3#R1x
+        f2 = R2*st2-R3*st3+R1  #R1y
+        f3 = -R5 - R4*ct4 #R2x
+        f4 = R6 -R4*st4 +R1 #R2y
         f5 = theta_4-theta_3 #G1
         f = [f1, f2, f3, f4, f5]
         fa = np.array(f,dtype=np.float)
@@ -82,7 +86,8 @@ while  theta_2 < input.loc[21,'Value']:
         #Takes the inverse of Matrix A
         ainv = inv(A)
         #Newton's Method Applied
-        x = x-(ainv*fa)
+        x = x-ainv*fa
+
         #Extracts values
         theta_3 = x[0][0]
         R3 = x[1][0]
@@ -90,8 +95,18 @@ while  theta_2 < input.loc[21,'Value']:
         R4 = x[3][0]
         R5 = x[4][0]
 
-
         i+=1
+
+    theta_3 = atan((-R2*ct2)/(R2*st2+R1))
+    ct3 = cos(theta_3)
+    st3 = sin(theta_3)
+    R3 = (R2*ct2)/(theta_3*st3)
+    theta_4 = theta_3
+    ct4 = cos(theta_4)
+    st4 = sin(theta_4)
+    R4 = ((st5/(1+ct5))-R6-R1)*(1/theta_4*ct4)
+    R5 = -R4*ct4
+
     #Logging Data into the table
     positions.loc[r,'theta_2'] = theta_2
     positions.loc[r,'theta_3'] = theta_3
@@ -123,16 +138,16 @@ while  theta_2 < input.loc[21,'Value']:
     f4 = y[3][0]
     f5 = y[4][0]
     #solving for second kinematic coefficents
-    B = np.array([[R3*st3, 0 , -ct3, 0, 0],
+    D = np.array([[R3*st3, 0 , -ct3, 0, 0],
                  [-R3*ct3, 0, -st3, 0, 0],
                  [0, R4*st4, 0, -ct4, ct5],
                  [0, -R4*st4, 0, -st4, st5],
                  [-1, 1, 0, 0, 0,]], dtype=np.float)
 
-    C = np.array([[R2*ct2 - 2*f3*h3*ct3 - R3*st3*h3**2],[R2*st2 - 2*f3*h3*ct3 - R3*st3*h3**2],[-R4*ct4*h4**2],[2*f4*h4*ct4 - R4*st4*h4**2],[0]], dtype=np.float)
+    E = np.array([[R2*ct2 - 2*f3*h3*ct3 - R3*st3*h3**2],[R2*st2 - 2*f3*h3*ct3 - R3*st3*h3**2],[-R4*ct4*h4**2],[2*f4*h4*ct4 - R4*st4*h4**2],[0]], dtype=np.float)
 
-    binv = inv(B)
-    y = binv*C
+    dinv = inv(D)
+    z = dinv*E
     #storing second kinematic coefficents
     positions.loc[r,'h3p'] = y[0][0]
     positions.loc[r,'f3p'] = y[1][0]
@@ -206,9 +221,10 @@ while  theta_2 < input.loc[21,'Value']:
     positions.loc[r,'F34'] = F34
     positions.loc[r,'F45'] = F45
 
-    theta_2 +=.01
+    theta_2 +=.1
     r += 1
 positions.to_csv('Data.csv')
+print(x)
 #Generating t2 vs h3 plot
 plt.figure(1)
 plt.plot(positions.theta_2,positions.theta_3)
@@ -247,7 +263,7 @@ plt.savefig(titler4)
 
 #Generating t2 vs R5 plot
 plt.figure(5)
-plt.plot(positions.theta_2,positions.R5)
+plt.plot(positions.theta_2,positions['R5'])
 titler5 = 'Theta 2 vs Vector R5'
 plt.title(titler5)
 plt.xlabel('Theta 2 (radians)')
