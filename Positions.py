@@ -44,6 +44,8 @@ r=0 #row Counter
 
 while  theta_2 < input.loc[21,'Value']:
     #finding the sines and cosines of all the angles
+    ct1 = cos(theta_1)
+    st1 = sin(theta_1)
     ct2 = cos(theta_2)
     st2 = sin(theta_2)
     ct3 = cos(theta_3)
@@ -62,10 +64,10 @@ while  theta_2 < input.loc[21,'Value']:
 
 
         #find the values of the VLEs provided on page 96
-        f1 = R2*ct2-R3*ct3+R1 #R1x
-        f2 = R2*st2-R3*st3 #R1y
-        f3 = R5 - R4*ct4-R1 #R2x
-        f4 = R6 -R4*st4 #R2y
+        f1 = R2*ct2-R3*ct3+R1*ct1 #R1x
+        f2 = R2*st2-R3*st3+R1*st1 #R1y
+        f3 = R6*ct6 + R5*ct5 - R4*ct4 - R1*ct1 #R2x
+        f4 = R6*st6 + R5*st5 -R4*st4-R1*st1 #R2y
         f5 = theta_4-theta_3 #G1
         f = [f1, f2, f3, f4, f5]
         fa = np.array(f,dtype=np.float)
@@ -74,7 +76,7 @@ while  theta_2 < input.loc[21,'Value']:
         dfdr3 = np.array([[-ct3], [-st3], [0], [0], [0]], dtype=np.float)
         dfdt4 = np.array([[0], [0], [R4*st4], [-R4*ct4], [1]], dtype=np.float)
         dfdr4 = np.array([[0], [0], [-ct4], [-st4], [0]], dtype=np.float)
-        dfdr5 = np.array([[0], [0], [0], [-1], [0]], dtype=np.float)
+        dfdr5 = np.array([[0], [0], [ct5], [st5], [0]], dtype=np.float)
         #Making 5x5 array of derivatives
         A = np.hstack((dfdh3,dfdr3,dfdt4,dfdr4,dfdr5))
         #Takes the inverse of Matrix A
@@ -206,7 +208,7 @@ while  theta_2 < input.loc[21,'Value']:
 
     theta_2 +=.01
     r += 1
-
+positions.to_csv('Data.csv')
 #Generating t2 vs h3 plot
 plt.figure(1)
 plt.plot(positions.theta_2,positions.theta_3)

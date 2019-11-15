@@ -11,10 +11,10 @@ Theta 3,5.236,radians
 Theta 4,5.236,radians
 Theta 5,-1.57,radians
 Theta 6,0,radians
-M2,1,kg
-M3,1,kg
-M4,1,kg
-M5,1,kg
+M2,10,kg
+M3,10,kg
+M4,10,kg
+M5,10,kg
 I2,1,
 I3,1,
 I4,1,
