@@ -15,9 +15,9 @@ input = pd.read_csv('Input.csv')
 R1 = input.loc[0,'Value']  #inches - pg 96
 R2 = input.loc[1,'Value'] #inches - pg 96
 R6 = input.loc[5,'Value'] #inches - pg 96
-theta_1 = input.loc[6,'Value']# pg 96
-theta_5 = input.loc[10,'Value']# pg 96
-theta_6 = input.loc[11,'Value']# pg 96
+theta_1 = 1.570796# pg 96
+theta_5 = 0# pg 96
+theta_6 = 1.570796# pg 96
 m2 = input.loc[12,'Value']
 m3 = input.loc[13,'Value']
 m4 = input.loc[14,'Value']
@@ -303,7 +303,7 @@ plt.plot(positions.theta_2,positions.h3p)
 titleh3p = 'Theta 2 vs h3\''
 plt.title(titleh3p)
 plt.xlabel('Theta 2 (radians)')
-plt.ylabel('h3\' (radians/s)')
+plt.ylabel('h3\' (radians/s^2)')
 plt.savefig(titleh3p)
 
 #Generating t2 vs R3' plot
@@ -312,7 +312,7 @@ plt.plot(positions.theta_2,positions.f3p)
 titler3p = 'Theta 2 vs f3\''
 plt.title(titler3p)
 plt.xlabel('Theta 2 (radians)')
-plt.ylabel('r3\' (m/s)')
+plt.ylabel('r3\' (m/s^2)')
 plt.savefig(titler3p)
 
 #Generating t2 vs t4 plot
@@ -321,7 +321,7 @@ plt.plot(positions.theta_2,positions.h4p)
 titlet4p = 'Theta 2 vs h4\''
 plt.title(titlet4p)
 plt.xlabel('Theta 2 (radians)')
-plt.ylabel('h4\' (radians/s)')
+plt.ylabel('h4\' (radians/s^2)')
 plt.savefig(titlet4p)
 
 #Generating t2 vs R4 plot
@@ -330,7 +330,7 @@ plt.plot(positions.theta_2,positions.f4p)
 titler4p = 'Theta 2 vs f4\''
 plt.title(titler4p)
 plt.xlabel('Theta 2 (radians)')
-plt.ylabel('f4\' (m/s)')
+plt.ylabel('f4\' (m/s^2)')
 plt.savefig(titler4p)
 
 #Generating t2 vs R5 plot
@@ -339,7 +339,7 @@ plt.plot(positions.theta_2,positions.f5p)
 titler5p = 'Theta 2 vs f5\''
 plt.title(titler5p)
 plt.xlabel('Theta 2 (radians)')
-plt.ylabel('f5\' (m/s)')
+plt.ylabel('f5\' (m/s^2)')
 plt.savefig(titler5p)
 
 #Generating t2 vs T plot
